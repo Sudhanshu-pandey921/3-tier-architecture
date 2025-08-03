@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  vmImage: gurupool
+  gurupool
 
 steps:
 - script: echo Hello, world!
