@@ -8,7 +8,7 @@ steps:
   - script: terraform init
     displayName: 'Terraform Init'
 
-  - script: terraform fmt -check
+  - script: terraform fmt -recursive
     displayName: 'Terraform Fmt'
 
   - script: terraform validate
