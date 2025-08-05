@@ -1,0 +1,35 @@
+trigger:
+  - main
+
+pool:
+  DC_DataCenter
+
+steps:
+- task: TerraformInstaller@1
+  inputs:
+    terraformVersion: 'latest'
+
+- task: TerraformTask@5
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/Infra_3Tire_App'
+    backendServiceArm: 'DC_WID_SC01'
+    backendAzureRmStorageAccountName: 'dcindstoragea001'
+    backendAzureRmContainerName: 'dcpipeline001'
+    backendAzureRmKey: 'dcinfra.tfstate'
+
+- task: TerraformTask@5
+  inputs:
+    provider: 'azurerm'
+    command: 'validate'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/Infra_3Tire_App'
+
+- task: TerraformTask@5
+  inputs:
+    provider: 'azurerm'
+    command: 'custom'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/Infra_3Tire_App'
+    outputTo: 'console'
+    customCommand: 'fmt'
+    environmentServiceNameAzureRM: 'DC_WID_SC01'
